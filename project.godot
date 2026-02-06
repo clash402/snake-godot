@@ -14,6 +14,7 @@ config/name="Snake"
 run/main_scene="res://scenes/Main.tscn"
 config/features=PackedStringArray("4.6")
 run/max_fps=60
+config/icon="uid://cta7gw1voxrbj"
 
 [display]
 
