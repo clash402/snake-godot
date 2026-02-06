@@ -9,6 +9,7 @@ A clean, classic Snake implementation in Godot 4.6 using GDScript.
 
 ## Controls
 - Move: `Arrow Keys` or `WASD`
+- Touch: swipe to steer (iOS/mobile web)
 - Restart: `R`
 - Back to menu: `Esc`
 

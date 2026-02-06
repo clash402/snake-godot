@@ -17,6 +17,9 @@ var food_eaten: int = 0
 var tick_interval: float = GameConfig.START_TICK
 var accumulator: float = 0.0
 
+var active_touch_id: int = -1
+var touch_start_position: Vector2 = Vector2.ZERO
+
 @onready var score_label: Label = $ScoreLabel
 @onready var best_label: Label = $BestLabel
 @onready var renderer: SnakeRenderer = $SnakeRenderer
@@ -61,6 +64,17 @@ func _unhandled_input(event: InputEvent) -> void:
 		_queue_direction(Vector2i.LEFT)
 	elif event.is_action_pressed("ui_right"):
 		_queue_direction(Vector2i.RIGHT)
+	elif event is InputEventScreenTouch:
+		var touch_event := event as InputEventScreenTouch
+		if touch_event.pressed:
+			active_touch_id = touch_event.index
+			touch_start_position = touch_event.position
+		elif touch_event.index == active_touch_id:
+			_reset_touch_tracking()
+	elif event is InputEventScreenDrag:
+		var drag_event := event as InputEventScreenDrag
+		if drag_event.index == active_touch_id:
+			_apply_swipe(drag_event.position)
 
 
 func _process(delta: float) -> void:
@@ -168,3 +182,23 @@ func _update_hud() -> void:
 func _play_if_available(player: AudioStreamPlayer) -> void:
 	if player != null and player.stream != null:
 		player.play()
+
+
+func _apply_swipe(current_position: Vector2) -> void:
+	var delta := current_position - touch_start_position
+	if delta.length() < GameConfig.SWIPE_MIN_DISTANCE:
+		return
+
+	var candidate: Vector2i
+	if absf(delta.x) >= absf(delta.y):
+		candidate = Vector2i.RIGHT if delta.x > 0.0 else Vector2i.LEFT
+	else:
+		candidate = Vector2i.DOWN if delta.y > 0.0 else Vector2i.UP
+
+	_queue_direction(candidate)
+	touch_start_position = current_position
+
+
+func _reset_touch_tracking() -> void:
+	active_touch_id = -1
+	touch_start_position = Vector2.ZERO

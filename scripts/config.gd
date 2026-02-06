@@ -12,6 +12,7 @@ const SPEED_MULTIPLIER: float = 0.92
 const MIN_TICK: float = 0.06
 
 const WRAP_AROUND: bool = false
+const SWIPE_MIN_DISTANCE: float = 28.0
 
 const HUD_HEIGHT: int = 64
 const WINDOW_WIDTH: int = GRID_WIDTH * CELL_SIZE
