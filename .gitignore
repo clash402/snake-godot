@@ -1,0 +1,15 @@
+# Godot 4+ editor metadata/cache
+.godot/
+
+# Godot 3.x imported assets
+.import/
+
+# Godot export and generated translation files
+export.cfg
+export_presets.cfg
+*.translation
+
+# Mono/.NET (if using C# with Godot)
+.mono/
+data_*/
+mono_crash.*.json
